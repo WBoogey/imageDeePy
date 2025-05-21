@@ -19,12 +19,14 @@
       @change="reset"
     />
 
-    <!-- Bouton d'analyse -->
-    <div class="btn-container">
-      <button @click="classify">
-        ♻️ Identifier un déchet
-      </button>
-    </div>
+    <button
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl disabled:opacity-60"
+      :disabled="loading"
+      @click="classify"
+    >
+      <span v-if="loading">Analyse…</span>
+      <Button v-else>Classifier</Button>
+    </button>
 
     <!-- Affichage des résultats -->
     <div v-if="error" class="error">
@@ -48,6 +50,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { Button } from '@/components/ui/button'
 
 const fileInput = ref(null)
 const loading = ref(false)
