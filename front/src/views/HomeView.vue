@@ -16,7 +16,7 @@
       @click="classify"
     >
       <span v-if="loading">Analyse…</span>
-      <span v-else>Classifier</span>
+      <Button v-else>Classifier</Button>
     </button>
 
     <p v-if="error" class="mt-4 text-red-600">⚠️ {{ error }}</p>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { Button } from '@/components/ui/button'
 
 // TODO: change if your API runs elsewhere
 const API_URL = 'http://localhost:7071/api/classify_waste'
