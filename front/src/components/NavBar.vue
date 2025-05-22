@@ -9,7 +9,7 @@ import {
 
 <template>
   <div class="flex justify-between items-center  px-6 text-center">
-    <div class="font-bold text-4xl cursor-pointer">
+    <div class="text-shadow-lg/40 font-bold text-4xl cursor-pointer">
       Logo
     </div>
     <NavigationMenu>
