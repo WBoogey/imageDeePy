@@ -1,0 +1,32 @@
+<script lang="ts">
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@/components/ui/navigation-menu'
+import { cn } from '@/lib/utils'
+</script>
+
+<template>
+  <div class="flex justify-between items-center py-4 px-6 text-center">
+    <div class="font-bold text-2xl cursor-pointer">
+      Logo
+    </div>
+    <NavigationMenu class="flex justify-center gap-10">
+      <NavigationMenuList class="">
+        <NavigationMenuItem class="">
+          <NavigationMenuLink
+            class="relative inline-block after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
+            Se connecter
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem class="m-4">
+          <NavigationMenuLink class="relative inline-block after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
+              Mode invitée
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  </div>
+</template>
