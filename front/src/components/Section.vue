@@ -1,7 +1,7 @@
 <template>
   <div class="container flex mt-10 justify-around ">
     <section class="">
-      <h2 class="font-semibold">
+      <h2 class="text-xl font-semibold mb-10">
         À propos
       </h2>
       <p class="max-w-90">
@@ -11,11 +11,11 @@
       </p>
     </section>
     <section>
-      <h2 class="font-semibold">
+      <h2 class="text-xl font-semibold mt-2 mb-9">
         Matériaux recyclables
       </h2>
-      <ul>
-        <li v-for="(mat, index) in materiaux"  :key="index" class="decoration">
+      <ul class="list-disc flex flex-wrap max-w-40 justify-between gap-11">
+        <li v-for="(mat, index) in materiaux"  :key="index" class="">
           {{ mat }}
         </li>
       </ul>

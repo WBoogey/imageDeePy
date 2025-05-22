@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Footer from '@/components/FooterC.vue';
 import HeroBanner from '@/components/HeroBanner.vue';
 import NavBar from '@/components/NavBar.vue';
 import  Section  from '@/components/Section.vue';
@@ -10,5 +11,6 @@ import  Section  from '@/components/Section.vue';
     <NavBar/>
     <HeroBanner/>
     <Section />
+    <Footer/>
   </div>
 </template>
