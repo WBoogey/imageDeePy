@@ -103,22 +103,10 @@ def classify_waste(req: func.HttpRequest) -> func.HttpResponse:
             if not encoded:
                 raise ValueError("JSON payload must contain field 'image' (base64).")
             image_bytes = base64.b64decode(encoded)
-
-        elif ctype.startswith("multipart/form-data"):
-            body = req.get_body()
-            multipart_data = decoder.MultipartDecoder(body, ctype)
-            for part in multipart_data.parts:
-                if part.headers.get(b'Content-Disposition', b'').decode().find("name=\"file\"") != -1:
-                    image_bytes = part.content
-                    break
-            else:
-                raise ValueError("No file part found in multipart data.")
-
         else:
-            raise ValueError("Unsupported content type.")
-
+            image_bytes = req.get_body()
         if not image_bytes:
-            raise ValueError("No image data found.")
+            raise ValueError("No image data found in request.")
 
         result = _handle_image(image_bytes)
         return func.HttpResponse(
@@ -127,6 +115,7 @@ def classify_waste(req: func.HttpRequest) -> func.HttpResponse:
             status_code=200,
             headers=CORS_HEADERS,
         )
+
 
     except Exception as exc:
         logging.exception("Bad request or internal error")

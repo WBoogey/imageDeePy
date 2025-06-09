@@ -17,13 +17,13 @@ const password = ref<string >('')
 
 const handleSubmit = async()=>{
   const data = {
-    identifier: email.value,
+    email: email.value,
     password: password.value
   }
   try {
     await auth.login(data)
     toast.success('connexion réussie')
-    router.push('/Dashboard')
+    router.push('/Dashboard/analyser')
   } catch (error) {
     console.log(error)
     toast.error('Erreur lors de la connexion')

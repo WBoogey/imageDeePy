@@ -13,13 +13,42 @@
       <label for="file-upload" class="cursor-pointer w-full text-center py-4 border-2 border-dashed border-green-300 rounded-xl hover:bg-green-50 transition">
         <span class="block text-green-700 font-semibold mb-1">Glissez-déposez une image ici</span>
         <span class="text-gray-400 text-xs">(ou cliquez pour sélectionner un fichier)</span>
-        <input id="file-upload" type="file" class="hidden" @change="handleFile"/>
+        <input id="file-upload" type="file" accept="image/*" class="hidden" @change="handleFile"/>
       </label>
+      
+      <!-- Affichage de l'image et bouton d'envoi -->
       <div v-if="preview" class="mt-4 flex flex-col items-center">
         <img :src="preview" class="max-h-32 rounded-lg shadow" />
-        <button class="mt-4 px-5 py-2 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition shadow animate-pulse">
-          Envoyer l’image
+        <button 
+          @click="classifyWaste"
+          :disabled="isLoading"
+          class="mt-4 px-5 py-2 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition shadow disabled:opacity-50 disabled:cursor-not-allowed"
+          :class="isLoading ? 'animate-pulse' : ''"
+        >
+          {{ isLoading ? 'Analyse en cours...' : 'Envoyer l\'image' }}
         </button>
+      </div>
+
+      <!-- Affichage des résultats -->
+      <div v-if="result" class="mt-6 w-full">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+          <h3 class="font-bold text-green-800 mb-2">Résultat de l'analyse :</h3>
+          <ul class="text-green-700 text-sm space-y-1">
+          <li><b>Catégorie détectée :</b> {{ result.label }}</li>
+          <li><b>Poubelle conseillée :</b> {{ result.bin }}</li>
+          <li><b>Idée de réutilisation :</b> {{ result.reuse ?? 'Aucune suggestion' }}</li>
+          <li><b>Empreinte carbone (kgCO₂e) :</b> {{ result.carbon_footprint_kgCO2e }}</li>
+        </ul>
+          <p class="mt-2 text-sm text-gray-600">Cette analyse est basée sur un modèle d'IA et peut ne pas être précise à 100%.</p>
+        </div>
+      </div>
+
+      <!-- Affichage des erreurs -->
+      <div v-if="error" class="mt-6 w-full">
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <h3 class="font-bold text-red-800 mb-2">Erreur :</h3>
+          <p class="text-sm text-red-700">{{ error }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -27,19 +56,63 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const dragActive = ref(false)
 const preview = ref<string | null>(null)
+const selectedFile = ref<File | null>(null)
+const isLoading = ref(false)
+const result = ref<any>(null)
+const error = ref<string | null>(null)
+
 function handleFile(e: Event) {
   const files = (e.target as HTMLInputElement).files
   if (files && files[0]) {
+    selectedFile.value = files[0]
     preview.value = URL.createObjectURL(files[0])
+    // Reset les résultats précédents
+    result.value = null
+    error.value = null
   }
 }
+
 function handleDrop(e: DragEvent) {
   dragActive.value = false
   const files = e.dataTransfer?.files
   if (files && files[0]) {
+    selectedFile.value = files[0]
     preview.value = URL.createObjectURL(files[0])
+    // Reset les résultats précédents
+    result.value = null
+    error.value = null
   }
 }
+
+async function classifyWaste() {
+  if (!selectedFile.value) {
+    error.value = 'Aucun fichier sélectionné'
+    return
+  }
+
+  isLoading.value = true
+
+  try {
+    const response = await fetch('http://localhost:7071/api/classify_waste', {
+      method: 'POST',
+      body: selectedFile.value,
+      headers: {
+        'Content-Type': selectedFile.value.type || 'image/jpeg',
+      },
+      mode: 'cors',
+    })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.error || 'Erreur API')
+    result.value = data
+  } catch (e) {
+    console.error(e)
+    error.value = e instanceof Error ? e.message : 'Erreur inconnue'
+  } finally {
+    isLoading.value = false
+  }
+}
+
 </script>
