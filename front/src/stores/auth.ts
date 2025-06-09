@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const cookie = useCookies()
   const isUsers =ref<userType | null>()
   const token = computed<string | undefined>(()=> cookie.get('jwt'))
+  const isAuthenticated = computed(() => !!token.value)
 
 
   const register = async (data: registerType): Promise<registerResponseType> => {
@@ -78,7 +79,7 @@ export const useAuthStore = defineStore('auth', () => {
     isUsers.value = null
   }
 
-  return { isUsers, token, register, login, logout , fetchUser }
+  return { isUsers, token, isAuthenticated, register, login, logout , fetchUser }
 })
 
 if (import.meta.hot) {

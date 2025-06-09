@@ -19,6 +19,6 @@ typing-extensions==4.13.2
 urllib3==2.4.0
 python-multipart==0.0.6
 requests-toolbelt
-accelerate==0.20.
+accelerate==0.20.3
 scikit-learn
 datasets

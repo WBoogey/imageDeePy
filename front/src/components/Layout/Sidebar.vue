@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { useAuthStore } from '@/stores/auth' // adapte le chemin si besoin
+const auth = useAuthStore()
+</script>
+
 <template>
   <aside class="w-60 bg-white/80 border-r border-green-100 flex flex-col py-8 px-4 gap-4 shadow-xl h-[90vh] mt-7 ml-4 rounded-2xl justify-between backdrop-blur-md animate-fade-in">
     <nav class="flex flex-col gap-3">
@@ -11,25 +16,28 @@
       </RouterLink>
       <RouterLink
         to="/historique"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg font-semibold transition
-        hover:bg-yellow-50 hover:text-yellow-700"
+        :class="[
+          'flex items-center gap-3 px-3 py-2 rounded-lg font-semibold transition hover:bg-yellow-50 hover:text-yellow-700',
+          !auth.isAuthenticated ? 'opacity-50 pointer-events-none cursor-not-allowed' : ''
+        ]"
         active-class="bg-yellow-100 text-yellow-700 shadow"
+        :tabindex="!auth.isAuthenticated ? -1 : 0"
       >
         <span>📁</span> <span>Historique</span>
       </RouterLink>
       <RouterLink
         to="/profil"
-        class="flex items-center gap-3 px-3 py-2 rounded-lg font-semibold transition
-        hover:bg-blue-50 hover:text-blue-700"
+        :class="[
+          'flex items-center gap-3 px-3 py-2 rounded-lg font-semibold transition hover:bg-blue-50 hover:text-blue-700',
+          !auth.isAuthenticated ? 'opacity-50 pointer-events-none cursor-not-allowed' : ''
+        ]"
         active-class="bg-blue-100 text-blue-700 shadow"
+        :tabindex="!auth.isAuthenticated ? -1 : 0"
       >
         <span>👤</span> <span>Profil</span>
       </RouterLink>
     </nav>
-    <div class="flex flex-col items-center gap-2 mt-10">
-      <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Steve" class="w-12 h-12 rounded-full border-2 border-green-200 shadow-lg" />
-      <span class="text-xs text-gray-500 font-semibold">Éco-citoyen ⭐</span>
-    </div>
+    <!-- ... -->
   </aside>
 </template>
 

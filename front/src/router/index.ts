@@ -41,14 +41,9 @@ const router = createRouter({
 
 router.beforeEach( async (to, from) => {
   const auth = useAuthStore()
-  // instead of having to check every route record with
-  // to.matched.some(record => record.meta.requiresAuth)
   if (to.meta.requiresAuth && !auth.token) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
     return {
       path: '/auth/login',
-      // save the location we were at to come back later
       query: { redirect: to.fullPath },
     }}
 })
