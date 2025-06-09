@@ -1,0 +1,392 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"SignInResponse": {
+				"properties": {
+					"token": {
+						"type": "string",
+						"description": "JWT authentication token"
+					}
+				},
+				"required": [
+					"token"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignInRequest": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User email address",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User password",
+						"minLength": 6
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignUpRequest": {
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User email address",
+						"format": "email"
+					},
+					"username": {
+						"type": "string",
+						"description": "Username"
+					},
+					"password": {
+						"type": "string",
+						"description": "User password",
+						"minLength": 8
+					}
+				},
+				"required": [
+					"email",
+					"username",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ImageOutputResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "ID de l'historique"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double",
+						"description": "ID utilisateur"
+					},
+					"prompt": {
+						"type": "string",
+						"description": "Prompt associé à l'image"
+					},
+					"imageUrl": {
+						"type": "string",
+						"description": "URL de l'image"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date de création"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"prompt",
+					"imageUrl",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ImageInputRequest": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double",
+						"description": "ID utilisateur"
+					},
+					"prompt": {
+						"type": "string",
+						"description": "Prompt associé à l'image"
+					},
+					"imageUrl": {
+						"type": "string",
+						"description": "URL de l'image"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Date de création"
+					}
+				},
+				"required": [
+					"userId",
+					"prompt",
+					"imageUrl",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "back",
+		"contact": {}
+	},
+	"paths": {
+		"/users/signin": {
+			"post": {
+				"operationId": "Signin",
+				"responses": {
+					"200": {
+						"description": "Authentication successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SignInResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request params"
+					},
+					"401": {
+						"description": "Invalid credentials"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				},
+				"summary": "Sign in user",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignInRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"201": {
+						"description": "User registered successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"token"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request params"
+					},
+					"409": {
+						"description": "Email already registered"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				},
+				"summary": "Register user",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignUpRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/histories": {
+			"post": {
+				"operationId": "CreateHistory",
+				"responses": {
+					"201": {
+						"description": "Historique créé",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ImageOutputResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Paramètres invalides"
+					},
+					"500": {
+						"description": "Erreur serveur"
+					}
+				},
+				"summary": "Créer un historique",
+				"tags": [
+					"Histories"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ImageInputRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllHistories",
+				"responses": {
+					"200": {
+						"description": "Liste des historiques",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ImageOutputResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Erreur serveur"
+					}
+				},
+				"summary": "Récupérer tous les historiques d'un utilisateur",
+				"tags": [
+					"Histories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/histories/{id}": {
+			"get": {
+				"operationId": "GetHistory",
+				"responses": {
+					"200": {
+						"description": "Historique trouvé",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ImageOutputResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Non trouvé"
+					},
+					"500": {
+						"description": "Erreur serveur"
+					}
+				},
+				"summary": "Récupérer un historique par son id",
+				"tags": [
+					"Histories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteHistory",
+				"responses": {
+					"204": {
+						"description": "Supprimé"
+					},
+					"404": {
+						"description": "Non trouvé"
+					},
+					"500": {
+						"description": "Erreur serveur"
+					}
+				},
+				"summary": "Supprimer un historique",
+				"tags": [
+					"Histories"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8001",
+			"description": "Localhost"
+		}
+	]
+}
