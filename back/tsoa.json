@@ -1,0 +1,32 @@
+{
+  "entryFile": "src/infrastructure/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/**/*.controller.ts"
+  ],
+  "iocModule": "./src/infrastructure/shared/domain/ioc.ts",
+  "spec": {
+    "outputDirectory": "build",
+    "specVersion": 3,
+    "spec": {
+      "servers": [
+        {
+          "url": "http://localhost:8001",
+          "description": "Localhost"
+        }
+      ]
+    },
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "authenticationModule": "./src/infrastructure/shared/HTTP/middleware/authentication.ts",
+    "iocModule": "./src/infrastructure/shared/domain/ioc.ts",
+    "routesDir": "build"
+  }
+}
