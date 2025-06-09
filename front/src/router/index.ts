@@ -4,6 +4,9 @@ import Analyse from '../views/Analyse.vue'
 import History from '../views/History.vue'
 import Profile from '../views/Profile.vue'
 import Layout from '../components/Layout/Layout.vue'
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +15,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+    },
+    {
+      path: '/auth/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/auth/register',
+      name: 'register',
+      component: Register,
     },
     {
     path: '/Dashboard',
