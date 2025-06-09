@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="text-center text-xs mt-6 text-gray-500">
-        © 2025 Recyclez Facilement. Tous droits réservés.
+        © 2025 CloudVision. Tous droits réservés.
       </div>
     </footer>
   </div>
