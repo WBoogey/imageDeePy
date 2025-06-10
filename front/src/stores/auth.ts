@@ -80,8 +80,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = ()=>{
-    cookie.remove('jwt'),
-    router.push('/')
+    cookie.remove('jwt')
+    if (typeof router !== 'undefined' && router?.push) {
+      router.push('/')
+    }
     isUsers.value = null
   }
 
