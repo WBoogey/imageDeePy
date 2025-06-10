@@ -1,24 +1,26 @@
 export interface userType {
-    id: number;
-    username: string;
-    email: string;
+  id: number;
+  username: string;
+  email: string;
 }
 
 export interface registerType {
-    username: string,
-    email : string,
-    password: string 
-  }
+  username: string,
+  email : string,
+  password: string 
+}
 
 export interface LoginType {
-    email: string ,
-    password: string
-  }
+  email: string ,
+  password: string
+}
 
 export interface registerResponseType {
-    token: string;
-  }
+  jwt: string;
+  user: userType;
+}
 
 export interface loginResponseType {
-    token: string;
-  }
+  jwt: string;
+  user: userType;
+}

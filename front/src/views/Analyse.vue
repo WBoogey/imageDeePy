@@ -55,7 +55,12 @@
 </template>
 
 <script setup lang="ts">
+import { createHistory } from '@/services/history.api'
+import type { ImageInputRequest } from '@/types/history'
+import { useAuthStore } from '@/stores/auth' // si tu veux l'userId
 import { ref } from 'vue'
+const auth = useAuthStore()
+const userId = auth.isUsers?.id 
 
 const dragActive = ref(false)
 const preview = ref<string | null>(null)
@@ -107,6 +112,20 @@ async function classifyWaste() {
     const data = await response.json()
     if (!response.ok) throw new Error(data.error || 'Erreur API')
     result.value = data
+    if (userId) {
+    const historyData: ImageInputRequest = {
+      userId,
+      prompt: data.label, // ou un prompt personnalisé
+      imageUrl: preview.value || '', // ou l'URL de l'image uploadée si tu la stockes
+      createdAt: new Date()
+    }
+    try {
+      await createHistory(historyData)
+      // Optionnel : afficher un message de succès ou mettre à jour l'historique local
+    } catch (e) {
+      console.error('Erreur lors de l\'enregistrement de l\'historique', e)
+    }
+}
   } catch (e) {
     console.error(e)
     error.value = e instanceof Error ? e.message : 'Erreur inconnue'

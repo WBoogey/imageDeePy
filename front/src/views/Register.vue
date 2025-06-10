@@ -23,7 +23,7 @@ const handleSubmit = async()=>{
   try {
     await auth.register(data)
     toast.success('Inscription réussie')
-    router.push('/Dashboard/analyser')
+    router.push('/analyser')
   } catch (error) {
     console.log(error)
     toast.error('Erreur lors de l inscription')

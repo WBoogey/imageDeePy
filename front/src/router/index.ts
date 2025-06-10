@@ -31,9 +31,9 @@ const router = createRouter({
     path: '/Dashboard',
     component: Layout,
     children: [
-      { path: '/analyser', name: 'Analyse', component: Analyse,  meta: { requiresAuth: false }, },
-      { path: '/historique', name: 'History', component: History , meta: { requiresAuth: true }, },
-      { path: '/profil', name: 'Profile', component: Profile , meta: { requiresAuth: true }, },
+      { path: '/Dashboard/analyser', name: 'Analyse', component: Analyse,  meta: { requiresAuth: false }, },
+      { path: '/Dashboard/historique', name: 'History', component: History , meta: { requiresAuth: true }, },
+      { path: '/Dashboard/profil', name: 'Profile', component: Profile , meta: { requiresAuth: true }, },
     ],
   },
   ],
@@ -41,11 +41,15 @@ const router = createRouter({
 
 router.beforeEach( async (to, from) => {
   const auth = useAuthStore()
+  if (to.path === '/Dashboard/analyser' && auth.isAuthenticated) {
+    return { path: '/analyser' }
+  }
   if (to.meta.requiresAuth && !auth.token) {
     return {
       path: '/auth/login',
       query: { redirect: to.fullPath },
-    }}
+    }
+  }
 })
 
 
