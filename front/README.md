@@ -1,61 +1,73 @@
-# .
+# CloudVision - Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+CloudVision est une application web Vue 3 permettant d'analyser des déchets à partir d'une image, d'obtenir la poubelle appropriée, une suggestion de réutilisation, et de suivre son historique d'analyses. Ce frontend communique avec une API Node.js (back) et une API Python (imagePy).
 
-## Recommended IDE Setup
+## Fonctionnalités principales
+- Authentification (inscription, connexion, déconnexion)
+- Analyse d'image (upload, drag & drop, preview, résultat IA)
+- Historique des analyses (CRUD)
+- Profil utilisateur (infos, avatar, empreinte carbone)
+- Responsive et moderne (Vue 3, Vite, Pinia, Tailwind)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Prérequis
+- Node.js >= 18
+- pnpm ou npm
+- Le backend (API Node) doit tourner sur http://localhost:8001
+- L'API Python (imagePy) doit tourner sur http://localhost:7071
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
+## Installation
 
 ```sh
-npm run dev
+pnpm install # ou npm install
 ```
 
-### Type-Check, Compile and Minify for Production
+## Lancer le projet en développement
 
 ```sh
-npm run build
+pnpm run dev # ou npm run dev
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+L'application sera accessible sur http://localhost:5173
+
+## Structure des dossiers
+
+- `src/views/` : Pages principales (Analyse, Historique, Profil, Auth)
+- `src/components/` : Composants réutilisables (Header, Sidebar, etc.)
+- `src/services/` : Appels API (analyse, historique...)
+- `src/stores/` : Stores Pinia (auth, etc.)
+- `src/types/` : Types TypeScript partagés
+
+## Tests
+
+### Tests unitaires (Vitest)
 
 ```sh
-npm run test:unit
+pnpm run test:unit
 ```
+- Les tests sont dans `src/stores/tests/` et autres dossiers `__tests__`.
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### Tests end-to-end (Cypress)
 
 ```sh
-npm run test:e2e:dev
+pnpm run test:e2e:dev
 ```
+- Les tests e2e sont dans `cypress/e2e/`.
+- Pour lancer les tests sur la build de prod :
+  ```sh
+  pnpm run build
+  pnpm run test:e2e
+  ```
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+## Fonctionnement général
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+- **Authentification** : Les utilisateurs peuvent s'inscrire, se connecter, se déconnecter. Le token JWT est stocké en cookie.
+- **Analyse d'image** : L'utilisateur upload une image, l'API Python retourne la catégorie, la poubelle, la suggestion de réutilisation et l'empreinte carbone.
+- **Historique** : Chaque analyse est enregistrée, l'utilisateur peut consulter et supprimer ses analyses.
+- **Profil** : Affiche les infos de l'utilisateur connecté, son avatar, son email, et des stats.
 
-```sh
-npm run build
-npm run test:e2e
-```
+## Lancer avec Docker (optionnel)
 
-### Lint with [ESLint](https://eslint.org/)
+Si tu utilises le monorepo avec docker-compose, le front sera accessible sur http://localhost:5173 automatiquement.
 
-```sh
-npm run lint
-```
+---
+- Projet CloudVision 2025

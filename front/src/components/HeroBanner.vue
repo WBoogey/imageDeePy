@@ -15,12 +15,16 @@ import { Button } from '@/components/ui/button';
           vos déchets
         </span>
         <div class="flex mt-20 gap-8 ">
-          <Button class=" bg-primary p-4 lg:p-6 border-1 border-(--primary-foreground) rounded-(--radius) text-background text-center hover:bg-secondary hover:text-primary-foreground hover:border-primary hover:border-1 transition-all duration-300">
-            Se connecter
-          </Button>
-          <Button class="bg-secondary p-4 lg:p-6 border-1 border-(--primary) hover:bg-primary-foreground hover:text-secondary transition-all duration-300 text-(--primary-foreground) rounded-(--radius)">
-            Mode invitée
-          </Button>
+          <RouterLink to="/auth/login">
+            <Button class="bg-green-500 p-4 lg:p-6 border-1 border-(--primary-foreground) rounded-(--radius) text-background text-center hover:bg-secondary hover:text-primary-foreground hover:border-primary hover:border-1 transition-all duration-300">
+              Se connecter
+            </Button>
+          </RouterLink>
+          <RouterLink to="/Dashboard/analyser">
+            <Button class="bg-secondary p-4 lg:p-6 border-1 border-(--primary) hover:bg-primary-foreground hover:text-secondary transition-all duration-300 text-(--primary-foreground) rounded-(--radius)">
+              Mode invitée
+            </Button>
+          </RouterLink>
         </div>
       </section>
       <section class="min-w-0 w-full lg:w-[650px] lg:h-[775px] h-[200px] bg-no-repeat bg-cover bg-[url('../assets/Image_banner.jpg')]">
