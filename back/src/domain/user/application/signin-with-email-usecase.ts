@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 import config from '../../../infrastructure/core/config';
 import Logger from '../../logger.port';
-import { container, inject, injectable } from 'tsyringe';
+import { container } from 'tsyringe';
 import { SingInDTO } from '../user.dto';
 import { UserRepository } from '../user.repository';
 

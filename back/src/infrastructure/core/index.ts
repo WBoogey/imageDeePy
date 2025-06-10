@@ -1,4 +1,3 @@
-import { container } from "tsyringe";
 import  express from "express";
 import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from '../../../build/routes';

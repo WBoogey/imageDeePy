@@ -3,7 +3,6 @@ import { AuthResponseDto, SignUpDTO, SingInDTO } from "../../../../domain/user/u
 import { users } from '../../db/schema';
 import { db } from "../../db";
 import { eq } from "drizzle-orm";
-import { injectable } from "tsyringe";
 
 
 export class DrizzleUserRepository implements UserRepository {
@@ -12,7 +11,6 @@ export class DrizzleUserRepository implements UserRepository {
 
   async findByemailAndPassword(user: SingInDTO): Promise<AuthResponseDto | null> {
     try {
-      // Rechercher l'utilisateur par email seulement
       const existingUser = await db
         .select()
         .from(users)
@@ -53,15 +51,13 @@ export class DrizzleUserRepository implements UserRepository {
         throw new Error('Un utilisateur avec cet email existe déjà');
       }
 
-      // Le mot de passe sera hashé dans le use case avant d'arriver ici
-      // Insérer le nouvel utilisateur
       const newUser = await db
         .insert(users)
         .values({
           username: user.username,
           email: user.email,
-          passwordHash: user.password, // Le mot de passe est déjà hashé par le use case
-          carbonFootprint: '0', // Valeur par défaut
+          passwordHash: user.password,
+          carbonFootprint: '0',
         })
         .execute();
 
@@ -69,33 +65,55 @@ export class DrizzleUserRepository implements UserRepository {
         throw new Error('Erreur lors de la création de l\'utilisateur');
       }
 
-      type UserSelect = typeof users.$inferSelect;
+      const createdUserArr = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, newUser[0].insertId))
+      .limit(1);
 
-      const createdUser = db
-        .select()
-        .from(users)
-        .where(eq(users.id, newUser[0].insertId))
-        .limit(1)
-        .execute() as unknown as UserSelect
+    if (!createdUserArr || createdUserArr.length === 0) {
+      throw new Error('Erreur lors de la récupération de l\'utilisateur créé');
+    }
 
-        
-      if (!createdUser) {
-        throw new Error('Erreur lors de la récupération de l\'utilisateur créé');
-      }
+    const userData = createdUserArr[0];
 
-      const userData = createdUser;
-
-      // Retourner les données utilisateur (le token sera généré dans le use case)
       return {
         id: userData.id,
         passwordHash: userData.passwordHash,
         email: userData.email,
         userName: userData.username,
-        token: '', // Le token sera généré dans le use case
+        token: '',
         createdAt: userData.createdAt
       };
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement de l\'utilisateur:', error);
+      throw error;
+    }
+  }
+
+  async findByEmail(email: string): Promise<AuthResponseDto | null> {
+    try {
+      const existingUser = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, email))
+        .limit(1);
+
+      if (existingUser.length === 0) {
+        return null;
+      }
+
+      const foundUser = existingUser[0];
+      return {
+        id: foundUser.id,
+        passwordHash: foundUser.passwordHash,
+        email: foundUser.email,
+        userName: foundUser.username,
+        token: '',
+        createdAt: foundUser.createdAt
+      };
+    } catch (error) {
+      console.error('Erreur lors de la recherche de l\'utilisateur par email:', error);
       throw error;
     }
   }

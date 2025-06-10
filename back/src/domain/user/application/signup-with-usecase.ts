@@ -19,24 +19,21 @@ export class RegisterUser {
   async execute(userData: SignUpDTO): Promise<{ token: string }> {
     this.logger.debug('[RegisterUser usecase] Start');
 
-    // Vérifier si l'email est déjà utilisé
-    const existingUser = await this.users.findByemailAndPassword(userData);
+    const existingUser = await this.users.findByEmail(userData.email);
     if (existingUser) {
       this.logger.warning('[RegisterUser usecase] Email already registered');
       throw new Error('Email already registered');
     }
 
-    // Hacher le mot de passe
+
     const password = await bcrypt.hash(userData.password, 10);
 
-    // Créer le nouvel utilisateur
     const newUser = await this.users.registerUser({
       email: userData.email,
       username: userData.username,
       password,
     });
 
-    // Générer le token JWT
     const token = jwt.sign({ sub: newUser.id }, this.secret, { expiresIn: '7d' });
 
     this.logger.debug('[RegisterUser usecase] Success');
