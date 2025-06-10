@@ -117,4 +117,31 @@ export class DrizzleUserRepository implements UserRepository {
       throw error;
     }
   }
+
+  async findByID(id: number): Promise<AuthResponseDto | null> {
+    try {
+      const existingUser = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, Number(id)))
+        .limit(1);
+
+      if (existingUser.length === 0) {
+        return null;
+      }
+
+      const foundUser = existingUser[0];
+      return {
+        id: foundUser.id,
+        passwordHash: foundUser.passwordHash,
+        email: foundUser.email,
+        userName: foundUser.username,
+        token: '',
+        createdAt: foundUser.createdAt
+      };
+    } catch (error) {
+      console.error('Erreur lors de la recherche de l\'utilisateur par id:', error);
+      throw error;
+    }
+  }
 }

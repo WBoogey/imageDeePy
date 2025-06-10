@@ -13,7 +13,6 @@ import {
 } from 'tsoa';
 import { HistoryService } from '../../../../domain/history/application/history.service';
 import { container, injectable } from 'tsyringe';
-import { ImageInputDTO, ImageOutputDTO } from '../../../../domain/history/historyDto';
 
 /**
  * @description Données attendues pour la création d'un historique

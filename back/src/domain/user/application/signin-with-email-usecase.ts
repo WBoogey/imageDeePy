@@ -1,4 +1,3 @@
-
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -21,7 +20,7 @@ export class LoginUser {
     this.logger = container.resolve<Logger>('Logger');
   }
 
-  async execute(credentials: SingInDTO): Promise<{ token: string }> {
+  async execute(credentials: SingInDTO): Promise<{ jwt: string; user: { id: number; username: string; email: string } }> {
     this.logger.debug('[LoginUser usecase] Start');
     
     const user = await this.users.findByemailAndPassword(credentials);
@@ -36,9 +35,16 @@ export class LoginUser {
       throw new Error("Invalid credentials");
     }
 
-    const token = jwt.sign({ sub: user.id }, this.secret, { expiresIn: "7d" });
+    const jwtToken = jwt.sign({ sub: user.id }, this.secret, { expiresIn: "7d" });
     
     this.logger.debug('[LoginUser usecase] Success');
-    return { token };
+    return {
+      jwt: jwtToken,
+      user: {
+        id: user.id,
+        username: user.userName,
+        email: user.email
+      }
+    };
   }
 }

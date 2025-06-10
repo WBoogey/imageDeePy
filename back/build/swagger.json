@@ -9,13 +9,34 @@
 		"schemas": {
 			"SignInResponse": {
 				"properties": {
-					"token": {
+					"jwt": {
 						"type": "string",
 						"description": "JWT authentication token"
+					},
+					"user": {
+						"properties": {
+							"email": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"email",
+							"username",
+							"id"
+						],
+						"type": "object"
 					}
 				},
 				"required": [
-					"token"
+					"jwt",
+					"user"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -196,15 +217,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"token": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"token"
-									],
-									"type": "object"
+									"$ref": "#/components/schemas/SignInResponse"
 								}
 							}
 						}
@@ -235,6 +248,67 @@
 						}
 					}
 				}
+			}
+		},
+		"/users/find/{id}": {
+			"get": {
+				"operationId": "FindById",
+				"responses": {
+					"200": {
+						"description": "Utilisateur trouvé",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"createdAt": {
+											"type": "string",
+											"format": "date-time"
+										},
+										"email": {
+											"type": "string"
+										},
+										"username": {
+											"type": "string"
+										},
+										"id": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"createdAt",
+										"email",
+										"username",
+										"id"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Utilisateur non trouvé"
+					},
+					"500": {
+						"description": "Erreur serveur"
+					}
+				},
+				"summary": "Récupérer un utilisateur par son id",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/histories": {

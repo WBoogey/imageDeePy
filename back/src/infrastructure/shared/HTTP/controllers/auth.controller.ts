@@ -6,6 +6,8 @@ import {
   Route,
   SuccessResponse,
   Tags,
+  Get,
+  Path,
 } from 'tsoa';
 import { UserService } from '../../../../domain/user/application/user.service';
 import { container, injectable } from 'tsyringe';
@@ -25,7 +27,6 @@ interface SignUpRequest {
 }
 
 
-// Types spécifiques à l'API (pour TSOA)
 interface SignInRequest {
   /** User email address
    * @format email
@@ -39,7 +40,12 @@ interface SignInRequest {
 
 interface SignInResponse {
   /** JWT authentication token */
-  token: string;
+  jwt: string;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+  };
 }
 
 @injectable()
@@ -84,7 +90,7 @@ export class UserController extends Controller {
   @Response(400, 'Invalid request params')
   @Response(409, 'Email already registered')
   @Response(500, 'Internal server error')
-  async register(@Body() requestBody: SignUpRequest): Promise<{ token: string }> {
+  async register(@Body() requestBody: SignUpRequest): Promise<SignInResponse> {
     try {
       const result = await this.userService.signUp(requestBody);
       this.setStatus(201);
@@ -96,6 +102,33 @@ export class UserController extends Controller {
       }
       this.setStatus(500);
       throw new Error('Internal server error');
+    }
+  }
+
+  /**
+   * @summary Récupérer un utilisateur par son id
+   */
+  @Get('/find/:id')
+  @SuccessResponse(200, 'Utilisateur trouvé')
+  @Response(404, 'Utilisateur non trouvé')
+  @Response(500, 'Erreur serveur')
+  async findById(@Path() id: number): Promise<{ id: number; username: string; email: string; createdAt: Date }> {
+    try {
+      const user = await this.userService.getUserById(id);
+      if (!user) {
+        this.setStatus(404);
+        throw new Error('Utilisateur non trouvé');
+      }
+      this.setStatus(200);
+      return {
+        id: user.id,
+        username: user.userName,
+        email: user.email,
+        createdAt: user.createdAt
+      };
+    } catch (error) {
+      this.setStatus(500);
+      throw new Error('Erreur lors de la récupération de l\'utilisateur');
     }
   }
 }

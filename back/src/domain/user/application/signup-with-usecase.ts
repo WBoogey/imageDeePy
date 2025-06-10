@@ -16,7 +16,7 @@ export class RegisterUser {
     this.logger = container.resolve<Logger>('Logger');
   }
 
-  async execute(userData: SignUpDTO): Promise<{ token: string }> {
+  async execute(userData: SignUpDTO): Promise<{ jwt: string; user: { id: number; username: string; email: string } }> {
     this.logger.debug('[RegisterUser usecase] Start');
 
     const existingUser = await this.users.findByEmail(userData.email);
@@ -24,7 +24,6 @@ export class RegisterUser {
       this.logger.warning('[RegisterUser usecase] Email already registered');
       throw new Error('Email already registered');
     }
-
 
     const password = await bcrypt.hash(userData.password, 10);
 
@@ -34,9 +33,16 @@ export class RegisterUser {
       password,
     });
 
-    const token = jwt.sign({ sub: newUser.id }, this.secret, { expiresIn: '7d' });
+    const jwtToken = jwt.sign({ sub: newUser.id }, this.secret, { expiresIn: '7d' });
 
     this.logger.debug('[RegisterUser usecase] Success');
-    return { token };
+    return {
+      jwt: jwtToken,
+      user: {
+        id: newUser.id,
+        username: newUser.userName,
+        email: newUser.email
+      }
+    };
   }
 }
