@@ -23,7 +23,7 @@ const handleSubmit = async()=>{
   try {
     await auth.login(data)
     toast.success('connexion réussie')
-    router.push('/analyser')
+    router.push('/Dashboard/analyser')
   } catch (error) {
     console.log(error)
     toast.error('Erreur lors de la connexion')

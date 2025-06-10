@@ -119,6 +119,7 @@ async function classifyWaste() {
       imageUrl: preview.value || '', // ou l'URL de l'image uploadée si tu la stockes
       createdAt: new Date()
     }
+    
     try {
       await createHistory(historyData)
       // Optionnel : afficher un message de succès ou mettre à jour l'historique local

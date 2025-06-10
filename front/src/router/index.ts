@@ -41,8 +41,8 @@ const router = createRouter({
 
 router.beforeEach( async (to, from) => {
   const auth = useAuthStore()
-  if (to.path === '/Dashboard/analyser' && auth.isAuthenticated) {
-    return { path: '/analyser' }
+  if (to.path === '/' && auth.isAuthenticated) {
+    return { path: '/Dashboard/analyser' }
   }
   if (to.meta.requiresAuth && !auth.token) {
     return {
