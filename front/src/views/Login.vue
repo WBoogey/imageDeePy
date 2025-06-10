@@ -1,5 +1,3 @@
-
-
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -68,11 +66,8 @@ const handleSubmit = async()=>{
             </div>
             <Input v-model="password" id="password" type="password" required />
           </div>
-          <Button type="submit" class="w-full">
+          <Button  type="submit" class="w-full te">
             Login
-          </Button>
-          <Button variant="outline" class="w-full">
-            Login with Google
           </Button>
         </form>
         <div class="mt-4 text-center text-sm">
@@ -89,7 +84,7 @@ const handleSubmit = async()=>{
         alt="Image"
         width="1920"
         height="1080"
-        class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        class="h-full w-full object-cover border-l-4 border-gray-200 shadow-none bg-gradient-to-r from-white via-gray-50 to-gray-100"
       >
     </div>
   </div>

@@ -79,14 +79,11 @@ const handleSubmit = async()=>{
           <Button type="submit"  class="w-full">
             Register
           </Button>
-          <Button variant="outline" class="w-full">
-            Login with Google
-          </Button>
         </form>
         <div class="mt-4 text-center text-sm">
           Don't have an account?
           <a href="/auth/login" class="underline">
-            Sign up
+            Sign in
           </a>
         </div>
       </div>
@@ -97,7 +94,7 @@ const handleSubmit = async()=>{
         alt="Image"
         width="1920"
         height="1080"
-        class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        class="h-full w-full object-cover border-l-4 border-gray-200 shadow-none bg-gradient-to-r from-white via-gray-50 to-gray-100"
       >
     </div>
   </div>
