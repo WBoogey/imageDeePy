@@ -52,13 +52,13 @@ _CATEGORY_TO_REUSE = {
 }
 
 _CARBON_EMISSIONS = {
-    "can": 0.2,                  # Aluminium
-    "cardboard": 0.1,            # Papier/carton
-    "glass bottle": 0.8,         # Variante ancienne
+    "can": 0.2,                
+    "cardboard": 0.1,            
+    "glass bottle": 0.8,         
     "glass_bottle": 0.8,
-    "plastic bottle": 1.5,       # Variante ancienne
+    "plastic bottle": 1.5,       
     "plastic_bottle": 1.5,
-    "__default__": 0.0           # On évite 'unknown' (tu peux mettre -1 si besoin)
+    "__default__": 0.0           
 }
 
 def _predict_label(image: Image.Image) -> str:
