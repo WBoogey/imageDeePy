@@ -42,6 +42,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       loginByApi(): Chainable<void>
+      registerByApi(username: string, email: string, password: string): Chainable<void>
     }
   }
 }
@@ -50,6 +51,17 @@ Cypress.Commands.add('loginByApi', () => {
   cy.request('POST', 'http://localhost:8001/users/signin', {
     email: 'ehourayvannakora@gmail.com',
     password: 'thegreat01'
+  }).then((response) => {
+    window.localStorage.setItem('jwt', response.body.jwt)
+    cy.setCookie('jwt', response.body.jwt)
+  })
+})
+
+Cypress.Commands.add('registerByApi', (username: string, email: string, password: string) => {
+  cy.request('POST', 'http://localhost:8001/users/register', {
+    username,
+    email,
+    password
   }).then((response) => {
     window.localStorage.setItem('jwt', response.body.jwt)
     cy.setCookie('jwt', response.body.jwt)
