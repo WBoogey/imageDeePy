@@ -1,6 +1,6 @@
 FROM node:20
 WORKDIR /app
 COPY . .
-RUN npm install
+RUN pnpm install
 EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["pnpm", "run", "dev", "--", "--host"]

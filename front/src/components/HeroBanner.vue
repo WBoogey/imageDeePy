@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
         </span>
         <div class="flex mt-20 gap-8 ">
           <RouterLink to="/auth/login">
-            <Button class="bg-green-500 p-4 lg:p-6 border-1 border-(--primary-foreground) rounded-(--radius) text-background text-center hover:bg-secondary hover:text-primary-foreground hover:border-primary hover:border-1 transition-all duration-300">
+            <Button class="p-4 lg:p-6 border-1 border-(--primary-foreground) rounded-(--radius) text-background text-center hover:bg-secondary hover:text-primary-foreground hover:border-primary hover:border-1 transition-all duration-300">
               Se connecter
             </Button>
           </RouterLink>

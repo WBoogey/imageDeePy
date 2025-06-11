@@ -67,7 +67,7 @@ const handleSubmit = async()=>{
             </div>
             <Input v-model="password" id="password" name="password" type="password" required />
           </div>
-          <Button  type="submit" class="w-full te">
+          <Button  type="submit" class="w-full text-background">
             Login
           </Button>
         </form>

@@ -9,7 +9,7 @@ import {
 
 <template>
   <div class="flex justify-between items-center  px-6 text-center lg:pr-25 lg:pl-25 lg:pt-10">
-    <div class="text-shadow-lg/40 font-bold text-6xl cursor-pointer">
+    <div class="text-shadow-lg/40 text-primary font-bold text-6xl cursor-pointer">
       CloudVision
     </div>
     <NavigationMenu>
