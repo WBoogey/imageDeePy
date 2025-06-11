@@ -13,7 +13,7 @@
       <label for="file-upload" class="cursor-pointer w-full text-center py-4 border-2 border-dashed border-green-300 rounded-xl hover:bg-green-50 transition">
         <span class="block text-green-700 font-semibold mb-1">Glissez-déposez une image ici</span>
         <span class="text-gray-400 text-xs">(ou cliquez pour sélectionner un fichier)</span>
-        <input id="file-upload" type="file" accept="image/*" class="hidden" @change="handleFile"/>
+        <input id="file-upload" type="file" accept="image/*" class="sr-only" @change="handleFile" />
       </label>
       
       <!-- Affichage de l'image et bouton d'envoi -->

@@ -18,4 +18,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // server: {
+  //   host: true,               
+  //   port: 5173,                
+  //   allowedHosts: ['cccd-185-226-32-80.ngrok-free.app'],  
+  //   hmr: {
+  //     host: 'Cloudvision.cccd-185-226-32-80.ngrok-free.app',     
+  //     clientPort: 443,         
+  //   },
+  // },
 })

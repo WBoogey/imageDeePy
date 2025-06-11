@@ -48,6 +48,7 @@ const handleSubmit = async()=>{
             <Label for="email">Email</Label>
             <Input
               v-model="email"
+              name="email"
               id="email"
               type="email"
               placeholder="m@example.com"
@@ -64,7 +65,7 @@ const handleSubmit = async()=>{
                 Forgot your password?
               </a>
             </div>
-            <Input v-model="password" id="password" type="password" required />
+            <Input v-model="password" id="password" name="password" type="password" required />
           </div>
           <Button  type="submit" class="w-full te">
             Login

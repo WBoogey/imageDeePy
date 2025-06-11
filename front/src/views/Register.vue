@@ -49,6 +49,7 @@ const handleSubmit = async()=>{
             <Input
               v-model="username"
               id="username"
+              name="username"
               type="text"
               placeholder="Ehoura Yvann"
               required
@@ -59,6 +60,7 @@ const handleSubmit = async()=>{
             <Input
               v-model="email"
               id="email"
+              name="email"
               type="email"
               placeholder="m@example.com"
               required
@@ -74,7 +76,7 @@ const handleSubmit = async()=>{
                 Forgot your password?
               </a>
             </div>
-            <Input v-model="password" id="password" type="password" required />
+            <Input v-model="password" id="password" name="password" type="password" required />
           </div>
           <Button type="submit"  class="w-full">
             Register
