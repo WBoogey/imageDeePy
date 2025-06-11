@@ -21,7 +21,7 @@ import {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem class="m-4">
-          <NavigationMenuLink href="/analyser" class="cursor-pointer relative text-lg inline-block after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
+          <NavigationMenuLink href="/Dashboard/analyser" class="cursor-pointer relative text-lg inline-block after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
               Mode invitée
           </NavigationMenuLink>
         </NavigationMenuItem>
