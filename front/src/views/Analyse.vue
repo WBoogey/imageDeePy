@@ -15,7 +15,24 @@
         <span class="text-gray-400 text-xs">(ou cliquez pour sélectionner un fichier)</span>
         <input id="file-upload" type="file" accept="image/*" class="hidden" @change="handleFile"/>
       </label>
-      
+      <!-- Bouton pour activer la caméra -->
+<button
+  @click="startCamera"
+  class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition"
+>
+  Prendre une photo
+</button>
+
+<!-- Aperçu de la caméra -->
+<div v-if="showCamera" class="relative mt-4 w-full max-w-xs">
+  <video ref="videoRef" autoplay playsinline class="rounded-xl shadow w-full"></video>
+  <button
+    @click="capturePhoto"
+    class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full shadow hover:bg-green-700"
+  >
+    📸 Capturer
+  </button>
+</div>
       <!-- Affichage de l'image et bouton d'envoi -->
       <div v-if="preview" class="mt-4 flex flex-col items-center">
         <img :src="preview" class="max-h-32 rounded-lg shadow" />
@@ -79,6 +96,59 @@ function handleFile(e: Event) {
     error.value = null
   }
 }
+import { ref, onUnmounted } from 'vue'
+
+const videoRef = ref<HTMLVideoElement | null>(null)
+const showCamera = ref(false)
+let stream: MediaStream | null = null
+
+// Activer la caméra
+const startCamera = async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true })
+    if (videoRef.value) {
+      videoRef.value.srcObject = stream
+    }
+    showCamera.value = true
+  } catch (err) {
+    error.value = 'Impossible d’accéder à la caméra'
+    console.error(err)
+  }
+}
+
+// Capturer la photo depuis le flux vidéo
+const capturePhoto = () => {
+  if (!videoRef.value) return
+
+  const video = videoRef.value
+  const canvas = document.createElement('canvas')
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
+  const context = canvas.getContext('2d')
+  if (context) {
+    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    canvas.toBlob((blob) => {
+      if (blob) {
+        selectedFile.value = new File([blob], 'photo.jpg', { type: 'image/jpeg' })
+        preview.value = URL.createObjectURL(blob)
+        showCamera.value = false
+        stopCamera()
+        result.value = null
+        error.value = null
+      }
+    }, 'image/jpeg')
+  }
+}
+
+// Désactiver la caméra quand on quitte la page ou capture une image
+const stopCamera = () => {
+  stream?.getTracks().forEach(track => track.stop())
+  stream = null
+}
+
+onUnmounted(() => {
+  stopCamera()
+})
 
 function handleDrop(e: DragEvent) {
   dragActive.value = false
