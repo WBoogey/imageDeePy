@@ -14,7 +14,7 @@ describe('auth store', () => {
   })
 
   it('logout réinitialise isUsers', () => {
-    // @ts-expect-error: ajout d'une propriété custom pour le test
+    // @ts-expect-error
     globalThis.router = { push: () => {} }
     const store = useAuthStore()
     store.isUsers = { id: 1, username: 'test', email: 'test@test.com' }
